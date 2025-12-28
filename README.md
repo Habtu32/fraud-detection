@@ -1,178 +1,173 @@
-# Credit Risk Modeling Project
+# Fraud Detection System
+## Project Overview
 
-## Interim Project Report
+This project implements an end-to-end **Fraud Detection System** designed to identify **fraudulent transactions** from historical transactional data using machine learning techniques. The system follows a structured and modular data science workflow, ensuring clarity, reproducibility, and scalability.
 
----
-
-## 1. Project Overview
-
-This project focuses on building a **Credit Risk Prediction System** that estimates the likelihood of loan default using historical customer and loan data. The objective is to apply data science and machine learning techniques to support **risk-aware lending decisions** in financial institutions.
-
-The project follows a structured machine learning lifecycle, including:
-
-* Data understanding and preparation
-* Exploratory data analysis (EDA)
-* Feature engineering
-* Predictive modeling
-* Model evaluation and interpretation
-
-This repository represents the **interim submission**, covering **Task 1: Data Preparation and Feature Engineering**, and preparing the foundation for **Task 2: Modeling**.
+The project covers data ingestion, preprocessing, feature engineering, model training, and evaluation. It is currently prepared for **model explainability** using **SHAP (SHapley Additive exPlanations)** to interpret model predictions and understand key fraud drivers.
 
 ---
 
-## 2. Project Objectives
+## Objectives
 
-* Understand and clean raw credit risk data
-* Explore patterns and risk drivers through EDA
-* Engineer meaningful features for modeling
-* Prepare a modeling-ready dataset
-* Establish a scalable and reproducible project structure
+* Detect fraudulent transactions accurately using machine learning
+* Build a clean and reusable data processing pipeline
+* Engineer meaningful features that improve fraud detection performance
+* Train and evaluate classification models
+* Prepare the system for explainable AI using SHAP
 
 ---
 
-## 3. Project Structure
+## Project Structure
 
 ```
-credit-risk-model/
+fraud-detection/
+├── .vscode/
+│   └── settings.json
+├── .github/
+│   └── workflows/
+│       └── unittests.yml
 ├── data/
-│   ├── raw/                # Original, unprocessed datasets
-│   └── processed/          # Cleaned and feature-engineered data
-├── notebooks/
-│   ├── 01_data_understanding.ipynb
-│   ├── 02_data_cleaning.ipynb
-│   ├── 03_eda.ipynb
-│   └── 04_feature_engineering.ipynb
+│   ├── raw/                 # Original datasets (excluded from version control)
+│   └── processed/           # Cleaned and feature-engineered data
+├── notebooks/               # Exploratory analysis and experiments
 ├── src/
-│   ├── __init__.py
-│   ├── data_processing.py  # Reusable data preparation functions
-│   └── config.py           # Configuration variables
-├── reports/
-│   └── figures/            # EDA plots and charts
-├── .gitignore
+│   ├── data_processing.py   # Data cleaning and preprocessing
+│   ├── feature_engineering.py
+│   ├── model_training.py    # Model training and evaluation
+│   └── app.py               # API entry point (FastAPI)
+├── models/                  # Saved trained models
+├── tests/                   # Unit tests
 ├── requirements.txt
+├── .gitignore
 └── README.md
 ```
 
 ---
 
-## 4. Task 1 Summary: Data Preparation & Feature Engineering
+## Dataset Description
 
-### 4.1 Data Understanding (Task 1.1)
+The dataset consists of historical transaction records containing both **legitimate** and **fraudulent** transactions. Each record includes transaction-level attributes such as amounts, timestamps, and other behavioral or engineered indicators.
 
-* Reviewed dataset structure, size, and variable definitions
-* Identified target variable (loan default status)
-* Classified features into numerical and categorical types
-* Assessed data quality issues (missing values, inconsistencies)
+* **Target variable**:
 
-**Outcome:** Clear understanding of the dataset and modeling target.
+  * `is_fraud` (1 = Fraudulent, 0 = Legitimate)
 
----
+* **Data location**:
 
-### 4.2 Data Cleaning (Task 1.2)
-
-* Handled missing values using appropriate strategies:
-
-  * Median imputation for numerical variables
-  * Mode or “Unknown” category for categorical variables
-* Removed duplicate records
-* Standardized column names and formats
-* Ensured correct data types for all features
-
-**Outcome:** Clean and consistent dataset ready for analysis.
+  * Raw data: `data/raw/`
+  * Processed data: `data/processed/`
 
 ---
 
-### 4.3 Exploratory Data Analysis – EDA (Task 1.3)
+## Task Progress
 
-* Analyzed target variable distribution (default vs non-default)
-* Studied relationships between features and credit risk
-* Visualized:
+### Task 1: Data Preparation & Feature Engineering ✅
 
-  * Income vs default
-  * Loan amount vs default
-  * Employment length and credit behavior
-* Identified class imbalance and potential risk drivers
+Completed steps:
 
-**Outcome:** Key insights into factors influencing credit risk.
+* Data ingestion from raw files
+* Handling missing values and inconsistent records
+* Encoding categorical variables
+* Scaling and normalizing numerical features
+* Feature creation to capture transactional patterns
+* Saving cleaned and processed datasets
 
----
+Output:
 
-### 4.4 Feature Engineering (Task 1.4)
-
-* Created new informative features, such as:
-
-  * Debt-to-income ratio
-  * Credit utilization indicators
-  * Loan-to-income ratios
-* Encoded categorical variables using suitable encoding techniques
-* Scaled numerical features where required
-* Saved the final modeling dataset to `/data/processed`
-
-**Outcome:** Model-ready dataset with enhanced predictive power.
+* Clean, model-ready dataset stored in `data/processed/`
 
 ---
 
-## 5. Tools and Technologies Used
+### Task 2: Modeling ✅
 
-* **Programming Language:** Python
-* **Libraries:**
+Completed steps:
 
-  * pandas, numpy – data manipulation
-  * matplotlib, seaborn – visualization
-  * scikit-learn – preprocessing and modeling (upcoming)
-* **Environment:** Jupyter Notebook, VS Code
-* **Version Control:** Git
+* Train-test data splitting
+* Training multiple classification models
+* Model evaluation using appropriate metrics for fraud detection:
 
----
+  * Precision
+  * Recall
+  * F1-score
+  * ROC-AUC
+* Selection of the best-performing model
+* Saving trained model artifacts
 
-## 6. Current Project Status (Interim Submission)
+Output:
 
-✅ Task 1 completed:
-
-* Data Understanding
-* Data Cleaning
-* Exploratory Data Analysis
-* Feature Engineering
-
-⏳ Task 2 pending:
-
-* Model selection
-* Model training
-* Performance evaluation
-* Model comparison
+* Trained models stored in the `models/` directory
+* Performance metrics documented in notebooks and logs
 
 ---
 
-## 7. Next Steps: Task 2 – Modeling
+### Task 3: Explainability (SHAP) 🔄 *(Next Step)*
 
-In the next phase, the project will:
+Planned steps:
 
-* Split data into training and testing sets
-* Train baseline models (Logistic Regression)
-* Experiment with advanced models (Decision Tree, Random Forest, etc.)
-* Evaluate models using accuracy, precision, recall, F1-score, and ROC-AUC
-* Select the best performing model for credit risk prediction
+* Apply SHAP to the selected model
+* Analyze global feature importance
+* Explain individual fraud predictions
+* Visualize SHAP summary, dependence, and force plots
+* Improve transparency and trust in the fraud detection model
 
 ---
 
-## 8. How to Run the Project
+## Technologies Used
 
-1. Clone the repository
+* **Programming Language**: Python
+* **Libraries**:
 
-   ```bash
-   git clone <repository-url>
+  * pandas, numpy
+  * scikit-learn
+  * matplotlib, seaborn
+  * SHAP (planned)
+  * FastAPI (API deployment)
+* **Version Control**: Git & GitHub
+
+---
+
+## How to Run the Project
+
+1. Clone the repository:
+
    ```
-2. Create a virtual environment and install dependencies
+   git clone https://github.com/Habtu32/fraud-detection
+   cd fraud-detection
+   ```
 
-   ```bash
+2. Create and activate a virtual environment:
+
+   ```
+   python -m venv .venv
+   source .venv/bin/activate   # Linux/Mac
+   .venv\Scripts\activate      # Windows
+   ```
+
+3. Install dependencies:
+
+   ```
    pip install -r requirements.txt
    ```
-3. Run notebooks in order from the `notebooks/` directory
+
+4. Run the API:
+
+   ```
+   uvicorn src.app:app --reload
+   ```
 
 ---
 
-## 9. Author
+## Future Improvements
+
+* Advanced feature engineering using time-window aggregation
+* Handling class imbalance with SMOTE or cost-sensitive learning
+* Model explainability with SHAP
+* Real-time fraud detection API deployment
+* Monitoring model drift and performance
+
+---
+
+## Author
 
 **Habtamu Wendifraw Eshibele**
-IT Support Officer | Aspiring Data Scientist
-Credit Risk Modeling Project – Interim Submission
+Fraud Detection & Machine Learning Project
