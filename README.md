@@ -5,6 +5,7 @@ This project implements an end-to-end **Fraud Detection System** designed to ide
 
 The project covers data ingestion, preprocessing, feature engineering, model training, and evaluation. It is currently prepared for **model explainability** using **SHAP (SHapley Additive exPlanations)** to interpret model predictions and understand key fraud drivers.
 
+
 ---
 
 ## Objectives
