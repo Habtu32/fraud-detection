@@ -1,170 +1,158 @@
-# Fraud Detection System
+# Fraud Detection for E-Commerce and Banking Transactions
+
 ## Project Overview
 
-This project implements an end-to-end **Fraud Detection System** designed to identify **fraudulent transactions** from historical transactional data using machine learning techniques. The system follows a structured and modular data science workflow, ensuring clarity, reproducibility, and scalability.
+This project implements an end-to-end **fraud detection pipeline** for e-commerce and banking transactions. The goal is to build a robust machine learning model that can accurately identify fraudulent transactions, explain its predictions using **SHAP**, and translate those insights into **actionable business recommendations**.
 
-The project covers data ingestion, preprocessing, feature engineering, model training, and evaluation. It is currently prepared for **model explainability** using **SHAP (SHapley Additive exPlanations)** to interpret model predictions and understand key fraud drivers.
+The project follows a structured, production-oriented workflow covering:
 
-
----
-
-## Objectives
-
-* Detect fraudulent transactions accurately using machine learning
-* Build a clean and reusable data processing pipeline
-* Engineer meaningful features that improve fraud detection performance
-* Train and evaluate classification models
-* Prepare the system for explainable AI using SHAP
+* Data preparation and cleaning
+* Exploratory data analysis (EDA)
+* Feature engineering
+* Model training and evaluation
+* Model explainability using SHAP
 
 ---
 
 ## Project Structure
 
 ```
-fraud-detection/
-├── .vscode/
-│   └── settings.json
-├── .github/
-│   └── workflows/
-│       └── unittests.yml
+project-root/
 ├── data/
-│   ├── raw/                 # Original datasets (excluded from version control)
-│   └── processed/           # Cleaned and feature-engineered data
-├── notebooks/               # Exploratory analysis and experiments
-├── src/
-│   ├── data_processing.py   # Data cleaning and preprocessing
-│   ├── feature_engineering.py
-│   ├── model_training.py    # Model training and evaluation
-│   └── app.py               # API entry point (FastAPI)
-├── models/                  # Saved trained models
-├── tests/                   # Unit tests
-├── requirements.txt
-├── .gitignore
-└── README.md
+│   ├── raw/                    # Original datasets (not committed if large)
+│   └── processed/              # Cleaned features and target files
+│       ├── fraud_features.csv
+│       └── fraud_target.csv
+├── models/
+│   ├── random_forest_fraud_model.joblib
+│   └── feature_names.joblib
+├── notebooks/
+│   ├── 01_data_preparation.ipynb
+│   ├── 02_exploratory_data_analysis.ipynb
+│   ├── 03_feature_engineering.ipynb
+│   ├── 04_modeling.ipynb
+│   └── 05_shap_explainability.ipynb
+├── scripts/                    # (Optional) reusable Python scripts
+├── README.md
+└── requirements.txt
 ```
 
 ---
 
-## Dataset Description
+## Tasks Completed
 
-The dataset consists of historical transaction records containing both **legitimate** and **fraudulent** transactions. Each record includes transaction-level attributes such as amounts, timestamps, and other behavioral or engineered indicators.
+### ✅ Task 1 — Data Preparation & Feature Engineering
 
-* **Target variable**:
+* Cleaned raw transaction data
+* Handled missing values and data types
+* Engineered numerical and behavioral features
+* Saved processed datasets to `data/processed/`
 
-  * `is_fraud` (1 = Fraudulent, 0 = Legitimate)
+### ✅ Task 2 — Modeling
 
-* **Data location**:
+* Built a **baseline model**
+* Trained an **ensemble RandomForestClassifier**
+* Used cross-validation for model selection
+* Final model configuration:
 
-  * Raw data: `data/raw/`
-  * Processed data: `data/processed/`
+  ```python
+  RandomForestClassifier(
+      max_depth=10,
+      n_jobs=-1,
+      random_state=42
+  )
+  ```
+* Saved trained model and feature names to `/models/`
 
----
+### ✅ Task 3 — Model Explainability (SHAP)
 
-## Task Progress
+Implemented full SHAP-based explainability **without retraining the model**:
 
-### Task 1: Data Preparation & Feature Engineering ✅
+#### Global Explainability
 
-Completed steps:
+* Baseline feature importance (`model.feature_importances_`)
+* SHAP summary plots (dot and bar)
+* Identification of **Top-5 fraud drivers**
+* Direction analysis (how features increase or decrease fraud risk)
 
-* Data ingestion from raw files
-* Handling missing values and inconsistent records
-* Encoding categorical variables
-* Scaling and normalizing numerical features
-* Feature creation to capture transactional patterns
-* Saving cleaned and processed datasets
+#### Local Explainability
 
-Output:
+* Individual explanations for:
 
-* Clean, model-ready dataset stored in `data/processed/`
+  * True Positive (TP)
+  * False Positive (FP)
+  * False Negative (FN)
+* SHAP force / waterfall plots
+* Plain-language explanations for each case
 
----
+#### Business Recommendations
 
-### Task 2: Modeling ✅
-
-Completed steps:
-
-* Train-test data splitting
-* Training multiple classification models
-* Model evaluation using appropriate metrics for fraud detection:
-
-  * Precision
-  * Recall
-  * F1-score
-  * ROC-AUC
-* Selection of the best-performing model
-* Saving trained model artifacts
-
-Output:
-
-* Trained models stored in the `models/` directory
-* Performance metrics documented in notebooks and logs
-
----
-
-### Task 3: Explainability (SHAP) 🔄 *(Next Step)*
-
-Planned steps:
-
-* Apply SHAP to the selected model
-* Analyze global feature importance
-* Explain individual fraud predictions
-* Visualize SHAP summary, dependence, and force plots
-* Improve transparency and trust in the fraud detection model
+* SHAP-driven manual review rules
+* Soft interventions for false positives
+* Feature monitoring for drift detection
+* Investigator-friendly explanations for decision support
 
 ---
 
-## Technologies Used
+## Key Technologies Used
 
-* **Programming Language**: Python
-* **Libraries**:
-
-  * pandas, numpy
-  * scikit-learn
-  * matplotlib, seaborn
-  * SHAP (planned)
-  * FastAPI (API deployment)
-* **Version Control**: Git & GitHub
+* **Python**
+* **Pandas / NumPy**
+* **Scikit-learn**
+* **SHAP**
+* **Matplotlib**
+* **Joblib**
+* **Jupyter Notebook**
 
 ---
 
 ## How to Run the Project
 
-1. Clone the repository:
+### 1. Clone the repository
 
-   ```
-   git clone https://github.com/Habtu32/fraud-detection
-   cd fraud-detection
-   ```
+```bash
+git clone <your-github-repo-url>
+cd project-root
+```
 
-2. Create and activate a virtual environment:
+### 2. Install dependencies
 
-   ```
-   python -m venv .venv
-   source .venv/bin/activate   # Linux/Mac
-   .venv\Scripts\activate      # Windows
-   ```
+```bash
+pip install -r requirements.txt
+```
 
-3. Install dependencies:
+### 3. Run notebooks in order
 
-   ```
-   pip install -r requirements.txt
-   ```
+Open Jupyter Notebook or JupyterLab and execute:
 
-4. Run the API:
+1. `01_data_preparation.ipynb`
+2. `02_exploratory_data_analysis.ipynb`
+3. `03_feature_engineering.ipynb`
+4. `04_modeling.ipynb`
+5. `05_shap_explainability.ipynb`
 
-   ```
-   uvicorn src.app:app --reload
-   ```
+> **Note:**
+> The SHAP notebook loads the trained model from `/models/`.
+> It does **not** retrain the model.
 
 ---
 
-## Future Improvements
+## Results Summary
 
-* Advanced feature engineering using time-window aggregation
-* Handling class imbalance with SMOTE or cost-sensitive learning
-* Model explainability with SHAP
-* Real-time fraud detection API deployment
-* Monitoring model drift and performance
+* Ensemble Random Forest achieved strong fraud-detection performance
+* SHAP revealed a small set of high-impact features driving predictions
+* Local explanations highlighted why the model succeeds and fails
+* Outputs are suitable for **both technical and business stakeholders**
+
+---
+
+## Repository Best Practices
+
+* Clear folder separation (data, models, notebooks)
+* No model retraining inside explainability notebook
+* Saved artifacts for reproducibility
+* Clean, modular notebook flow
+* Ready for future extension into production pipelines
 
 ---
 
@@ -172,3 +160,4 @@ Planned steps:
 
 **Habtamu Wendifraw Eshibele**
 Fraud Detection & Machine Learning Project
+December 2025
